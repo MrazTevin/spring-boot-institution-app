@@ -2,6 +2,8 @@ package com.ke.institutions.entity;
 
 import jakarta.persistence.*;
 
+import javax.print.attribute.standard.MediaSize;
+
 @Entity
 public class Student {
     @Id
@@ -12,4 +14,6 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
+
+
 }

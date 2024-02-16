@@ -40,7 +40,7 @@ public class InstitutionRequest {
         institution.setId(id);
         return ResponseEntity.ok(institutionService.updateInstitution(institution));
     }
-
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInstitution(@PathVariable Long id) {
         institutionService.deleteInstitution(id);
         return ResponseEntity.noContent().build();

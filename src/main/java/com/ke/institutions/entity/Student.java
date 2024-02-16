@@ -9,7 +9,7 @@ public class Student {
     private Long id;
 
     private String name;
-    @ManyToOnegit
+    @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 }

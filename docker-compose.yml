@@ -12,6 +12,7 @@ services:
        DATABASE_URL: jdbc:postgresql://school_repository:5432/postgres
        DATABASE_USERNAME: postgres
        DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+       USER_PASSWORD: ${USER_PASSWORD}
     depends_on:
       - school_repository
   school_repository:

@@ -1,5 +1,6 @@
 package com.ke.institutions.service;
 
+import com.ke.institutions.Exceptions.DuplicateInstitutionException;
 import com.ke.institutions.entity.Institution;
 import com.ke.institutions.respository.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,10 @@ public class InstitutionService {
 
     // CRUD DB operations
 
-    public Institution createInstitution(Institution institution) {
+    public Institution createInstitution(Institution institution) throws DuplicateInstitutionException {
+        if (institutionRepository.findByName(institution.getName()).isPresent()) {
+            throw new DuplicateInstitutionException("An institution with the same name already exists");
+        }
         return institutionRepository.save(institution);
     }
 

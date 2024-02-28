@@ -6,11 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 import java.util.Optional;
 
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, Long> {
     Optional<Institution> findByName(String name);
+
 
 
     List<Institution> findByNameContainingIgnoreCase(String institutionName);

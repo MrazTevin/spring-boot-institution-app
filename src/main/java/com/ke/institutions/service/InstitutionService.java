@@ -2,6 +2,7 @@ package com.ke.institutions.service;
 
 import com.ke.institutions.Dto.InstitutionDto;
 import com.ke.institutions.Exceptions.DuplicateInstitutionException;
+import com.ke.institutions.Exceptions.InstitutionNotFoundException;
 import com.ke.institutions.entity.Institution;
 import com.ke.institutions.respository.InstitutionRepository;
 import com.ke.institutions.restApi.InstitutionRequest;
@@ -65,4 +66,22 @@ public class InstitutionService {
     public Optional<Institution> findById(Long id) {
         return institutionRepository.findById(id);
     }
+
+    public Optional<Institution> findByName(String name) {
+        return institutionRepository.findByName(name);
+    }
+    public Institution editInstitutionName(Long id, String name) {
+        Institution institution = institutionRepository.findById(id)
+                .orElseThrow(() -> new InstitutionNotFoundException("Institution not found with ID: " + id));
+
+        // Check if the new name already exists
+        if (institutionRepository.existsByNameAndIdNot(name, id)) {
+            throw new DuplicateInstitutionException("An institution with the name '" + name + "' already exists.");
+        }
+
+        institution.setName(name);
+        return institutionRepository.save(institution);
+    }
+
+
 }

@@ -4,6 +4,7 @@ import com.ke.institutions.Dto.CreateInstitutionResponseDTO;
 import com.ke.institutions.Dto.InstitutionDto;
 import com.ke.institutions.Dto.InstitutionError;
 import com.ke.institutions.Exceptions.DuplicateInstitutionException;
+import com.ke.institutions.Exceptions.InstitutionNotFoundException;
 import com.ke.institutions.entity.Institution;
 import com.ke.institutions.service.InstitutionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,11 @@ public class InstitutionRequest {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/institution/{id}")
+    public ResponseEntity<?> editInstitutionName(@PathVariable Long id, @RequestBody String newName) {
+        return ResponseEntity.ok(institutionService.editInstitutionName(id, newName));
     }
 
 

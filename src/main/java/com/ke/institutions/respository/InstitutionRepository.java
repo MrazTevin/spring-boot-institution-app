@@ -21,4 +21,5 @@ public interface InstitutionRepository extends JpaRepository<Institution, Long> 
     @NotNull
     Optional<Institution> findById(@NotNull Long id);
 
+    boolean existsByNameAndIdNot(String newName, Long institutionId);
 }

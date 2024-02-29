@@ -1,6 +1,7 @@
 package com.ke.institutions.respository;
 
 import com.ke.institutions.entity.Institution;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +16,9 @@ public interface InstitutionRepository extends JpaRepository<Institution, Long> 
 
 
 
-    List<Institution> findByNameContainingIgnoreCase(String institutionName);
+    List<Institution> findByNameContainingIgnoreCase(String name);
 
-    List<Institution> findById(Institution institution);
+    @NotNull
+    Optional<Institution> findById(@NotNull Long id);
 
 }

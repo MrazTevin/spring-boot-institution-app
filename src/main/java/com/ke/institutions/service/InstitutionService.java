@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,8 +29,8 @@ public class InstitutionService {
         return institutionRepository.save(institution);
     }
 
-    public List<Institution> searchInstitutionsByName(String institutionName) {
-        return institutionRepository.findByNameContainingIgnoreCase(institutionName);
+    public List<Institution> searchInstitutionsByName(String name) {
+        return institutionRepository.findByNameContainingIgnoreCase(name);
     }
 
 
@@ -49,9 +50,9 @@ public class InstitutionService {
         institutionRepository.deleteById(id);
     }
 
-    public List<Institution> searchInstitutionsById(Long id) {
-        return institutionRepository.findById(getInstitution(id));
-    }
+//    public List<Institution> searchInstitutionsById(Long id) {
+//        return institutionRepository.findById(getInstitution(id));
+//    }
 
     public List<Institution> getAllInstitutionsSortedByName() {
         // Fetch all institutions from the repository and sort them by name in ascending order
@@ -61,4 +62,7 @@ public class InstitutionService {
                 .collect(Collectors.toList());
     }
 
+    public Optional<Institution> findById(Long id) {
+        return institutionRepository.findById(id);
+    }
 }

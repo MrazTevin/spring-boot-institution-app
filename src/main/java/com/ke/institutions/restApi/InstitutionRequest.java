@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/institutions")
@@ -34,16 +35,6 @@ public class InstitutionRequest {
         return institutionDTO;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Institution> getInstitution(@PathVariable Long id) {
-        Institution institution = institutionService.getInstitution(id);
-        if (institution !=null ) {
-            return ResponseEntity.ok(institution);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @GetMapping("/sortedByName")
     public ResponseEntity<List<Institution>> getAllInstitutionsSortedByName() {
         List<Institution> sortedInstitutions = institutionService.getAllInstitutionsSortedByName();
@@ -55,29 +46,37 @@ public class InstitutionRequest {
         return ResponseEntity.ok(institutionService.getAllInstitutions());
     }
 
-    @GetMapping("/institution/search")
-    public ResponseEntity<?> searchInstitutions(@RequestParam(required = false) Long id, @RequestParam(required = false) String name) {
-        if (id != null) {
-            // Search by ID
-            List<Institution> institutions = institutionService.searchInstitutionsById(id);
-            if (institutions.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            } else {
-                return ResponseEntity.ok(institutions);
-            }
-        } else if (name != null) {
-            // Search by name
-            List<Institution> institutions = institutionService.searchInstitutionsByName(name);
-            if (institutions.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            } else {
-                return ResponseEntity.ok(institutions);
-            }
+    @GetMapping(value = "/search", params = "name")
+    public ResponseEntity<?> searchInstitutionsByName(@RequestParam(required = false) String name) {
+        List<Institution> institutions = institutionService.searchInstitutionsByName(name);
+        if (institutions.isEmpty()) {
+            return ResponseEntity.notFound().build();
         } else {
-            // Handle invalid request
-            return ResponseEntity.badRequest().body("Invalid search criteria");
+            return ResponseEntity.ok(institutions);
         }
     }
+
+    @GetMapping(value = "/institution/search", params = "id")
+    public ResponseEntity<?> searchInstitutionsById(@RequestParam Long id) {
+        Optional<Institution> institution = institutionService.findById(id);
+        if (institution.isPresent()) {
+            return ResponseEntity.ok(institution.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("list/{id}")
+    public ResponseEntity<Institution> getInstitution(@PathVariable Long id) {
+        Institution institution = institutionService.getInstitution(id);
+        if (institution !=null ) {
+            return ResponseEntity.ok(institution);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<Institution> updateInstitution(@PathVariable Long id, @RequestBody Institution institution) {
         institution.setId(id);

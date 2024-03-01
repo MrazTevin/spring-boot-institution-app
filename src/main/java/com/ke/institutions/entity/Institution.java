@@ -1,5 +1,6 @@
 package com.ke.institutions.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,8 @@ public class Institution {
     @Column(unique=true)
     private String name;
     @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL)
+
+    @JsonManagedReference
     private Set<Course> courses;
 }
 

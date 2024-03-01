@@ -1,14 +1,10 @@
 package com.ke.institutions.restApi;
 
-import com.ke.institutions.Dto.CreateInstitutionResponseDTO;
 import com.ke.institutions.Dto.InstitutionDto;
-import com.ke.institutions.Dto.InstitutionError;
-import com.ke.institutions.Exceptions.DuplicateInstitutionException;
-import com.ke.institutions.Exceptions.InstitutionNotFoundException;
+import com.ke.institutions.entity.Course;
 import com.ke.institutions.entity.Institution;
 import com.ke.institutions.service.InstitutionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +24,11 @@ public class InstitutionRequest {
     @PostMapping
     public ResponseEntity<Institution> createInstitution(@RequestBody Institution institution) {
         return ResponseEntity.ok(institutionService.createInstitution(institution));
+    }
+
+    @PostMapping("/{institutionId}/courses")
+    public ResponseEntity<Institution> createCourse(@PathVariable Long institutionId, @RequestBody Course course) {
+        return ResponseEntity.ok(institutionService.createCourse(institutionId, course).getInstitution());
     }
     private InstitutionDto mapToInstitutionDto(Institution institution) {
         InstitutionDto institutionDTO = new InstitutionDto();

@@ -2,6 +2,7 @@ package com.ke.institutions.restApi;
 
 
 import com.ke.institutions.entity.Course;
+import com.ke.institutions.entity.Institution;
 import com.ke.institutions.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,11 @@ public class CourseRequest {
     public CourseRequest(CourseService courseService) {
         this.courseService = courseService;
     }
-    @PostMapping
-    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
-        return ResponseEntity.ok(courseService.createCourse(course));
-    }
 
+//    @PostMapping("/{institutionId}/courses")
+//    public ResponseEntity<Course> createCourse(@PathVariable Long institutionId, @RequestBody Course course) {
+//        return ResponseEntity.ok(courseService.createCourse(institutionId, course));
+//    }
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourse(@PathVariable Long id) {
         Course course = courseService.getCourse(id);

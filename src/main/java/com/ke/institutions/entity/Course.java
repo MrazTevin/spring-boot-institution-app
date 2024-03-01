@@ -1,5 +1,7 @@
 package com.ke.institutions.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +20,9 @@ public class Course {
     private String name;
     @ManyToOne
     @JoinColumn(name="institution_id")
+    @JsonBackReference
     private Institution institution;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<Student> students;
 }

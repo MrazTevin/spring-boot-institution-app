@@ -12,6 +12,7 @@ import com.ke.institutions.restApi.InstitutionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -118,5 +119,12 @@ public class InstitutionService {
         institutionRepository.save(institution);
 
         return course;
+    }
+
+    public List<Course> getAllCoursesByInstitution(Long institutionId) {
+        Institution institution = institutionRepository.findById(institutionId)
+                .orElseThrow(() -> new InstitutionNotFoundException("Institution not found with id: " + institutionId));
+
+        return new ArrayList<>(institution.getCourses());
     }
 }

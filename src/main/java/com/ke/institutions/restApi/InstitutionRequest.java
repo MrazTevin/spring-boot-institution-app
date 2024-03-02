@@ -30,6 +30,12 @@ public class InstitutionRequest {
     public ResponseEntity<Institution> createCourse(@PathVariable Long institutionId, @RequestBody Course course) {
         return ResponseEntity.ok(institutionService.createCourse(institutionId, course).getInstitution());
     }
+
+    @GetMapping("/{institutionId}/courses/list")
+    public ResponseEntity<List<Course>> getAllCoursesByInstitution(@PathVariable Long institutionId) {
+        List<Course> courses = institutionService.getAllCoursesByInstitution(institutionId);
+        return ResponseEntity.ok(courses);
+    }
     private InstitutionDto mapToInstitutionDto(Institution institution) {
         InstitutionDto institutionDTO = new InstitutionDto();
         institutionDTO.setInstitutionId(institution.getId());

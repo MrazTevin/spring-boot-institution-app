@@ -4,6 +4,7 @@ package com.ke.institutions.restApi;
 import com.ke.institutions.entity.Course;
 import com.ke.institutions.entity.Institution;
 import com.ke.institutions.service.CourseService;
+import com.ke.institutions.service.InstitutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,11 @@ import java.util.List;
 @RequestMapping(path="api/v1/courses")
 public class CourseRequest {
     private final CourseService courseService;
+    private final InstitutionService institutionService;
     @Autowired
-    public CourseRequest(CourseService courseService) {
+    public CourseRequest(CourseService courseService, InstitutionService institutionService) {
         this.courseService = courseService;
+        this.institutionService = institutionService;
     }
 
 //    @PostMapping("/{institutionId}/courses")

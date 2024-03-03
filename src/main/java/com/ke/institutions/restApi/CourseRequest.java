@@ -22,10 +22,26 @@ public class CourseRequest {
         this.institutionService = institutionService;
     }
 
-//    @PostMapping("/{institutionId}/courses")
-//    public ResponseEntity<Course> createCourse(@PathVariable Long institutionId, @RequestBody Course course) {
-//        return ResponseEntity.ok(courseService.createCourse(institutionId, course));
-//    }
+    @GetMapping("/{institutionId}/sorted")
+    public ResponseEntity<List<Course>> getAllCoursesSortedByName(
+       @PathVariable Long institutionId,
+       @RequestParam(required = false, defaultValue = "asc") String order) {
+
+        boolean ascending = order.equalsIgnoreCase("asc");
+
+        List<Course> courses = institutionService.getAllCoursesByInstitution(institutionId);
+
+        List<Course> sortedCourses = courseService.sortCoursesByName(courses, ascending);
+
+        return  ResponseEntity.ok(sortedCourses);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Course>> filterCoursesByName(@RequestParam String keyword) {
+        List<Course> filteredCourse = courseService.filterCourseByName(keyword);
+        return ResponseEntity.ok(filteredCourse);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourse(@PathVariable Long id) {
         Course course = courseService.getCourse(id);

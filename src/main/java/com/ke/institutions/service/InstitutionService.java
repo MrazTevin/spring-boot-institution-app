@@ -127,4 +127,12 @@ public class InstitutionService {
 
         return new ArrayList<>(institution.getCourses());
     }
+
+    public Institution updateInstitution(Long institutionId, Institution updatedInstitution) {
+        Institution existingInstitution = institutionRepository.findById(institutionId)
+                .orElseThrow(() -> new InstitutionNotFoundException("Institution not found with id: " + institutionId));
+
+        // will update institutional details
+        return institutionRepository.save(existingInstitution);
+    }
 }

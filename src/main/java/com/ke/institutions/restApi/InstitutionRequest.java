@@ -89,8 +89,7 @@ public class InstitutionRequest {
         return ResponseEntity.ok(institutionService.editInstitutionName(id, newName));
     }
 
-
-    @PutMapping("/{id}")
+    @PutMapping("/{institutionId}")
     public ResponseEntity<Institution> updateInstitution(@PathVariable Long id, @RequestBody Institution institution) {
         institution.setId(id);
         return ResponseEntity.ok(institutionService.updateInstitution(institution));

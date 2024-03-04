@@ -56,15 +56,15 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public Course updateCourse(Long id, String name) {
+    public Course updateCourse(Long id, String newName) {
        Course course = courseRepository.findById(id)
                .orElseThrow(() -> new CourseNotFoundException("Course not found with id : " + id ));
 
-       if (courseRepository.existsByNameAndInstitutionId(name, course.getInstitution().getId())) {
-           throw new DuplicateCourseException("A course with the name '" + name + "' already exists in this institution.");
+       if (courseRepository.existsByNameAndInstitutionId(newName, course.getInstitution().getId())) {
+           throw new DuplicateCourseException("A course with the name '" + newName + "' already exists in this institution.");
        }
 
-       course.setName(name);
+       course.setName(newName);
        return courseRepository.save(course);
     }
 

@@ -1,5 +1,6 @@
 package com.ke.institutions.restApi;
 
+import com.ke.institutions.entity.Course;
 import com.ke.institutions.entity.Student;
 import com.ke.institutions.service.CourseService;
 import com.ke.institutions.service.StudentService;
@@ -14,13 +15,15 @@ import java.util.List;
 public class StudentRequest {
 
     private final StudentService studentService;
+    private final CourseService courseService;
     @Autowired
-    public StudentRequest (StudentService studentService) {
+    public StudentRequest (StudentService studentService, CourseService courseService) {
         this.studentService = studentService;
+        this.courseService = courseService;
     }
-    @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
-        return ResponseEntity.ok(studentService.createStudent(student));
+    @PostMapping("/{courseId}/students")
+    public ResponseEntity<Course> addStudentToCourse(@PathVariable Long courseId, @RequestBody List<Student> students) {
+        return ResponseEntity.ok(courseService.addStudentsToCourse(courseId, students));
     }
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable Long id) {

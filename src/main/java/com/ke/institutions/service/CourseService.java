@@ -3,8 +3,10 @@ package com.ke.institutions.service;
 import com.ke.institutions.Exceptions.CourseNotFoundException;
 import com.ke.institutions.Exceptions.DuplicateCourseException;
 import com.ke.institutions.entity.Course;
+import com.ke.institutions.entity.Student;
 import com.ke.institutions.respository.CourseRepository;
 import com.ke.institutions.respository.InstitutionRepository;
+import com.ke.institutions.respository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,11 @@ import java.util.List;
 @Service
 public class CourseService {
     private final CourseRepository courseRepository;
+    private final StudentRepository studentRepository;
     @Autowired
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, StudentRepository studentRepository) {
         this.courseRepository = courseRepository;
+        this.studentRepository = studentRepository;
     }
 
     // CRUD operations for courses
@@ -68,6 +72,19 @@ public class CourseService {
        return courseRepository.save(course);
     }
 
+    public Course addStudentsToCourse(Long courseId, List<Student> students) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new CourseNotFoundException("Course not found with ID: " + courseId));
+
+        students.forEach(
+                student -> {
+                    student.setCourse(course);
+                    studentRepository.save(student);
+                }
+        );
+        course.getStudents().addAll(students);
+        return courseRepository.save(course);
+    }
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
     }

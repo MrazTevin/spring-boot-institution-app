@@ -55,10 +55,11 @@ public class CourseRequest {
     public ResponseEntity<List<Course>> getAllCourses() {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Course> updateCourse(@PathVariable Long id, @RequestBody Course course) {
-        course.setId(id);
-        return ResponseEntity.ok(courseService.updateCourse(course));
+    public ResponseEntity<Course> updateCourse(@PathVariable Long id, @RequestBody String newName) {
+        // Set the ID of the course from the path variable
+        return ResponseEntity.ok(courseService.updateCourse(id, newName));
     }
 
     @DeleteMapping("/{id}")
